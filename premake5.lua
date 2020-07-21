@@ -20,7 +20,7 @@ group ""
 
 project "Transcendent-Entity"
 	location "Transcendent-Entity"
-	kind "StaticLib"
+	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
 	staticruntime "on"
