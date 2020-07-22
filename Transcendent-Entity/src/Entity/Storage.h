@@ -20,18 +20,18 @@ namespace TE {
 	{
 	public:
 		Storage() {
-			componants = *&std::vector<std::pair<Entity_Type, Componant_Type>>();
+			componants = new std::vector<std::pair<Entity_Type, Componant_Type>>();
 			instance = this;
 		}
 
 	private:
 		template<typename... Args>
 		void intemplace(Entity_Type& entity, Args &&... args) {
-			componants.push_back(std::pair<Entity_Type, Componant_Type>(entity, Componant_Type(std::forward<Args>(args)...)));
+			componants->push_back(std::pair<Entity_Type, Componant_Type>(entity, Componant_Type(std::forward<Args>(args)...)));
 		}
 
 		Componant_Type intGet(Entity_Type& entity) {
-			for (auto& pair : componants)
+			for (auto& pair : *componants)
 				if (pair.first.GetID() == entity.GetID())
 					return pair.second;
 			
@@ -52,12 +52,12 @@ namespace TE {
 		}
 
 	private:
-		std::vector<std::pair<Entity_Type, Componant_Type>> componants;
+		std::vector<std::pair<Entity_Type, Componant_Type>>* componants;
 		static Storage* instance;
 	};
 
 	template<typename Entity_Type, typename Componant_Type>
-	Storage<Entity_Type, Componant_Type>* Storage<Entity_Type, Componant_Type>::instance;
+	Storage<Entity_Type, Componant_Type>* Storage<Entity_Type, Componant_Type>::instance = new Storage<Entity_Type, Componant_Type>();
 
 	/**
 	  * @tparam E E is entity type, must have a GetID Function.
